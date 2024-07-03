@@ -1,5 +1,7 @@
 package com.bazi.poindexter_network.user;
 
+import com.bazi.poindexter_network.book.Book;
+import com.bazi.poindexter_network.history.BookTransactionHistory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -48,13 +50,22 @@ public class User implements UserDetails, Principal {
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
+
     @Column(unique = true)
     private String email;
+
     private String password;
     private boolean accountLocked;
     private boolean enabled;
+
     @ManyToMany(fetch = EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
