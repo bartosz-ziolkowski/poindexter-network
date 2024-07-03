@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/poindexter-network
+    url: jdbc:postgresql://localhost:6734/poindexter-network
     username: username
     password: password
     driver-class-name: org.postgresql.Driver
@@ -31,7 +31,7 @@ spring:
 application:
   security:
     jwt:
-      secret-key: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxOTkyNzIyMCwiaWF0IjoxNzE5OTI3MjIwfQ.YNJbf8TL9Wa9urtOJLoJvZIEO5cfBa0RDIfy8_lAVuQ
+      secret-key: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxOTkyNzIyMCwiaWF0IjoxNzE5OTI3MjIwfQYNJbf8TL9Wa9urtOJLoJvZIEO5cfBa0RDIfy8lAVuQ
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
