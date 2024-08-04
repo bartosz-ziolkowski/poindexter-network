@@ -61,6 +61,7 @@ jobs:
           echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> $GITHUB_ENV
 
       - name: Running Unit Tests
         run: |
@@ -129,6 +130,7 @@ jobs:
           echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> $GITHUB_ENV
 
       - name: Build project
         run: |
