@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/poindexter-network}
-    username: ${DB_USERNAME:username}
-    password: ${DB_PASSWORD:password}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -14,10 +14,10 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
-    host: ${EMAIL_HOST_NAME:smtp.gmail.com}
+    host: ${EMAIL_HOST_NAME}
     port: 465
-    username: ${EMAIL_USER_NAME:shopping.bartek@gmail.com}
-    password: ${EMAIL_PASSWORD:nbzu rqta uoci uhsy}
+    username: ${EMAIL_USER_NAME}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -28,17 +28,13 @@ spring:
           starttls:
             enable: true
     protocol: smtp
-  config:
-    import=optional:
-       file:
-         .env[.properties]
 application:
   security:
     jwt:
-      secret-key: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxOTkyNzIyMCwiaWF0IjoxNzE5OTI3MjIwfQYNJbf8TL9Wa9urtOJLoJvZIEO5cfBa0RDIfy8lAVuQ
-      expiration: 86400000 # a day
+      secret-key: ${JWT_KEY}
+      expiration: 86400000
       refresh-token:
-        expiration: 604800000 # 7 days
+        expiration: 604800000
   mailing:
     frontend:
       activation-url: http://localhost:8080/activate-account
