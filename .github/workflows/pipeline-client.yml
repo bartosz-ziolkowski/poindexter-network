@@ -1,0 +1,73 @@
+name: Poindexter Client Pipeline
+
+on:
+  push:
+    branches:
+      - ci/pipeline
+    paths:
+      - poindexter-network-ui/**
+      - docker/client/**
+      - "docker-compose.yml"
+      - .github/workflows/*-client.yml
+jobs:
+  build-image:
+    name: Build Client Docker image
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract project version
+        id: extract_version
+        run: |
+          cd poindexter-network-ui
+          echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: poindexter-network-ui
+          file: docker/client/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pn-ui:latest,${{ secrets.DOCKERHUB_USERNAME }}/pn-ui:${{ steps.extract_version.outputs.VERSION }}
+
+# TO-DO: set-up VPS first
+#  deploy:
+#    name: Deploy Client
+# runs-on: self-hosted
+# needs: [build-image]
+# steps:
+#   - name: Create deployment folder
+#     run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p ci-cd"
+
+#   - name: Copy docker-compose file
+#     run: scp -oStrictHostKeyChecking=no docker-compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/docker-compose.yml
+
+#   - name: Set ENV variable and deploy
+#     run: |
+#       ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
+#       cd ci-cd
+#       docker compose -f docker-compose.yml pull -q
+#       docker compose -f docker-compose.yml up -d
+#       EOF
+
+#  health-check:
+#    name: UI Health Check
+#    runs-on: self-hosted
+#    needs: [deploy]
+#    steps:
+#      - name: Check the docker container health status
+#        run: |
+#          if ! docker ps -a | grep pn-ui; then
+#            echo "Container is not running"
+#            exit 1
+#          fi
