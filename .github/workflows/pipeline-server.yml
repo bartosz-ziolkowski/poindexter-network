@@ -69,21 +69,15 @@ jobs:
     name: Build backend
     needs: [compile]
     services:
-      db:
-        container_name: poindexter-db
+      postgres:
         image: postgres
-        environment:
+        env:
           POSTGRES_USER: username
           POSTGRES_PASSWORD: password
           PGDATA: /var/lib/postgresql/data
           POSTGRES_DB: poindexter-network
-        volumes:
-          - postgres:/data/postgres
         ports:
           - 6734:5432
-        networks:
-          - poindexter-net
-        restart: unless-stopped
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
