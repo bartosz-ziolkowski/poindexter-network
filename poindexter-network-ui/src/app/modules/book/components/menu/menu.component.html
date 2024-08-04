@@ -1,36 +1,45 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Poindexters</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" routerLink="/books">
+<nav class="bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between">
+      <a class="text-lg font-semibold" href="javascript:void(0)">Poindexters</a>
+      <button
+        class="lg:hidden px-3 py-2 border rounded text-gray-700 border-gray-200 hover:text-gray-900 hover:border-gray-300"
+        type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+        onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="hidden lg:flex lg:flex-grow lg:items-center" id="navbarSupportedContent">
+      <ul class="flex flex-col lg:flex-row lg:space-x-4 lg:mr-auto mb-2 lg:mb-0">
+        <li>
+          <a class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-200 rounded lg:inline lg:hover:bg-transparent lg:hover:text-gray-900"
+            aria-current="page" routerLink="/books">
             <i class="fas fa-home-alt"></i>&nbsp;Home
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="my-books">
+        <li>
+          <a class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-200 rounded lg:inline lg:hover:bg-transparent lg:hover:text-gray-900"
+            routerLink="my-books">
             <i class="fas fa-book"></i>&nbsp;My books
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="my-returned-books">
+        <li>
+          <a class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-200 rounded lg:inline lg:hover:bg-transparent lg:hover:text-gray-900"
+            routerLink="my-returned-books">
             <i class="fa-solid fa-truck-fast"></i>&nbsp;My returned books
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="my-borrowed-books">
+        <li>
+          <a class="block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-200 rounded lg:inline lg:hover:bg-transparent lg:hover:text-gray-900"
+            routerLink="my-borrowed-books">
             <i class="fas fa-list-check"></i>&nbsp;Borrowed books
           </a>
         </li>
       </ul>
-      <div class="d-flex gap-2 align-items-center">
+      <div class="flex items-center space-x-2">
         <span>Welcome</span>
-        <span class="text-capitalize fw-bold">XYZ</span>
-        <button class="btn btn-link" type="submit" (click)="logout()"><i class="fas fa-door-open"></i></button>
+        <span class="capitalize font-bold">XYZ</span>
+
       </div>
     </div>
   </div>

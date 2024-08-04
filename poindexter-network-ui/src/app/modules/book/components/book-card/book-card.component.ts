@@ -1,18 +1,15 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BookResponse} from '../../../../services/models/book-response';
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import {RatingComponent} from "../rating/rating.component";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgIf, NgOptimizedImage } from '@angular/common';
+
+import { BookResponse } from '../../../../services/models/book-response';
+import { RatingComponent } from '../rating/rating.component';
 
 @Component({
   selector: 'app-book-card',
   standalone: true,
-  imports: [
-    NgIf,
-    NgOptimizedImage,
-    RatingComponent
-  ],
+  imports: [NgIf, NgOptimizedImage, RatingComponent],
   templateUrl: './book-card.component.html',
-  styleUrl: './book-card.component.scss'
+  styleUrl: './book-card.component.scss',
 })
 export class BookCardComponent {
   private _book: BookResponse = {};
@@ -21,9 +18,10 @@ export class BookCardComponent {
 
   get bookCover(): string | undefined {
     if (this._book.cover) {
-      return 'data:image/jpg;base64,' + this._book.cover
+      return 'data:image/jpg;base64,' + this._book.cover;
     }
-    return 'https://picsum.photos/1900/800';
+
+    return '/dist/assets/No_Image.svg';
   }
 
   get book(): BookResponse {
@@ -35,7 +33,6 @@ export class BookCardComponent {
     this._book = value;
   }
 
-
   get manage(): boolean {
     return this._manage;
   }
@@ -45,12 +42,18 @@ export class BookCardComponent {
     this._manage = value;
   }
 
-  @Output() private share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private addToWaitingList: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private borrow: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private edit: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private details: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() private share: EventEmitter<BookResponse> =
+    new EventEmitter<BookResponse>();
+  @Output() private archive: EventEmitter<BookResponse> =
+    new EventEmitter<BookResponse>();
+  @Output() private addToWaitingList: EventEmitter<BookResponse> =
+    new EventEmitter<BookResponse>();
+  @Output() private borrow: EventEmitter<BookResponse> =
+    new EventEmitter<BookResponse>();
+  @Output() private edit: EventEmitter<BookResponse> =
+    new EventEmitter<BookResponse>();
+  @Output() private details: EventEmitter<BookResponse> =
+    new EventEmitter<BookResponse>();
 
   onShare() {
     this.share.emit(this._book);

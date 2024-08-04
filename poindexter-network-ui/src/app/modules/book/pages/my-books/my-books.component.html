@@ -1,78 +1,77 @@
-<h3>My books list</h3>
-<hr>
-<div class="d-flex justify-content-end mb-3">
-  <a routerLink="/books/manage" class="btn btn-outline-primary">
-    <i class="fas fa-plus"></i>&nbsp;New book
-  </a>
-</div>
-<div class="d-flex justify-content-start gap-4 flex-wrap">
-  <app-book-card
-    *ngFor="let book of bookResponse.content"
-    [book]="book"
-    [manage]="true"
-    (archive)="archiveBook($event)"
-    (share)="shareBook($event)"
-    (edit)="editBook($event)"
-  ></app-book-card>
-</div>
-<div class="d-flex justify-content-center mt-3">
-  <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item">
-        <a
-          (click)="goToFirstPage()"
-          class="page-link"
-          href="javascript:void(0)"
-          aria-label="Previous"
-          [class.disabled]="page === 0"
-        >
-          <i class="fa-solid fa-angles-left"></i>
-        </a>
-      </li>
-      <li class="page-item">
-        <a
-          (click)="goToPreviousPage()"
-          class="page-link"
-          href="javascript:void(0)"
-          aria-label="Previous"
-          [class.disabled]="page === 0"
-        >
-          <i class="fa-solid fa-angle-left"></i>
-        </a>
-      </li>
-      <li
-        class="page-item"
-        *ngFor="let pageIndex of pages"
-      >
-        <a
-          (click)="gotToPage(pageIndex)"
-          class="page-link"
-          [class.active]="page === pageIndex"
-          href="javascript:void(0)"
-        >{{ pageIndex + 1 }}</a>
-      </li>
-      <li class="page-item">
-        <a
-          (click)="goToNextPage()"
-          class="page-link"
-          href="javascript:void(0)"
-          aria-label="Next"
-          [class.disabled]="isLastPage"
-        >
-          <i class="fa-solid fa-chevron-right"></i>
-        </a>
-      </li>
-      <li class="page-item">
-        <a
-          (click)="goToLastPage()"
-          class="page-link"
-          href="javascript:void(0)"
-          aria-label="Next"
-          [class.disabled]="isLastPage"
-        >
-          <i class="fa-solid fa-angles-right"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
+<!-- Container for the entire section -->
+<div class="py-10 lg:py-16 bg-gradient-to-br from-green-50 to-cyan-100">
+  <div class="container mx-auto px-6 text-gray-600 md:px-4 xl:px-6">
+
+    <!-- Header and New Book Button -->
+    <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-center md:justify-evenly text-center mb-12 ">
+      <h3 class="text-3xl font-bold text-cyan-900 ">My Books List</h3>
+      <a routerLink="/books/manage"
+        class="btn btn-outline-primary mx-auto md:mx-0 w-fit px-4 py-2 border rounded-md text-white bg-indigo-500 hover:bg-blue transition duration-200 ease-in-out">
+        <i class="fas fa-plus"></i>&nbsp;New Book
+      </a>
+
+    </div>
+
+    <!-- Books Display -->
+    <div *ngIf="bookResponse.content && bookResponse.content.length > 0; else noBooksMessage"
+      class="flex flex-wrap text-center py-6 bg-white items-center gap-6 justify-center md:justify-evenly mx-auto rounded-lg">
+      <app-book-card *ngFor="let book of bookResponse.content" [book]="book" [manage]="true"
+        (archive)="archiveBook($event)" (share)="shareBook($event)" (edit)="editBook($event)"></app-book-card>
+    </div>
+
+    <!-- No Books Message -->
+    <ng-template #noBooksMessage>
+      <div
+        class="flex items-center justify-center h-64 bg-gray-100 text-gray-600 p-6 rounded-lg shadow-md outline outline-indigo-500">
+        <p class="text-lg font-semibold">You have not published any books yet.</p>
+      </div>
+    </ng-template>
+
+    <!-- Pagination -->
+    <div *ngIf="bookResponse.content && bookResponse.content.length > 0" class="flex justify-center mt-12">
+      <nav aria-label="Page navigation">
+        <ul class="flex list-style-none space-x-1">
+          <li>
+            <a (click)="goToFirstPage()"
+              class="px-3 py-1 border rounded-md text-gray-500 hover:bg-gray-200  transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="First" [class.opacity-50]="page === 0"
+              [class.cursor-not-allowed]="page === 0">
+              <i class="fa-solid fa-angles-left"></i>
+            </a>
+          </li>
+          <li>
+            <a (click)="goToPreviousPage()"
+              class="px-3 py-1 border rounded-md text-white bg-green hover:bg-blue  transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="Previous" [class.opacity-50]="page === 0"
+              [class.cursor-not-allowed]="page === 0">
+              <i class="fa-solid fa-angle-left"></i>
+            </a>
+          </li>
+          <li *ngFor="let pageIndex of pages">
+            <a (click)="gotToPage(pageIndex)"
+              class="px-3 py-1 border rounded-md text-white bg-green hover:bg-blue  transition duration-200 ease-in-out"
+              [class.bg-blue-500]="page === pageIndex" [class.text-white]="page === pageIndex"
+              [class.text-blue-500]="page !== pageIndex" [class.border-blue-500]="page === pageIndex"
+              href="javascript:void(0)">
+              {{ pageIndex + 1 }}
+            </a>
+          </li>
+          <li>
+            <a (click)="goToNextPage()"
+              class="px-3 py-1 border rounded-md text-white bg-green hover:bg-blue  transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="Next" [class.opacity-50]="isLastPage"
+              [class.cursor-not-allowed]="isLastPage">
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </li>
+          <li>
+            <a (click)="goToLastPage()"
+              class="px-3 py-1 border rounded-md text-white bg-green hover:bg-blue  transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="Last" [class.opacity-50]="isLastPage"
+              [class.cursor-not-allowed]="isLastPage">
+              <i class="fa-solid fa-angles-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>

@@ -14,12 +14,31 @@ services:
     networks:
       - poindexter-net
     restart: unless-stopped
-  mail-dev:
-    container_name: mail-dev
-    image: maildev/maildev
+# I switched over to smtp.gmail
+#  mail-dev:
+#    container_name: mail-dev
+#    image: maildev/maildev
+#    ports:
+#      - 1080:1080
+#      - 1025:1025
+  pn-api:
+    container_name: pn-api
+    image: pn/pn-api:1.0.3
     ports:
-      - 1080:1080
-      - 1025:1025
+      - 8089:8089
+    networks:
+      - poindexter-net
+    depends_on:
+      - db
+  pn-ui:
+    container_name: pn-ui
+    image: pn/pn-ui:1.0.1
+    ports:
+      - 8080:80
+    networks:
+      - poindexter-net
+    depends_on:
+      - pn-api
 networks:
   poindexter-net:
     driver: bridge

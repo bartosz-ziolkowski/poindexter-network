@@ -1,23 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {RatingComponent} from "../../components/rating/rating.component";
-import {BookResponse} from "../../../../services/models/book-response";
-import {PageResponseFeedbackResponse} from "../../../../services/models/page-response-feedback-response";
-import {FeedbackService} from "../../../../services/services/feedback.service";
-import {BookService} from "../../../../services/services/book.service";
-import {ActivatedRoute} from "@angular/router";
-import {NgForOf} from "@angular/common";
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
+import { CommonModule, NgForOf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+
+import { BookResponse } from '../../../../services/models/book-response';
+import { BookService } from '../../../../services/services/book.service';
+import { FeedbackService } from '../../../../services/services/feedback.service';
+import { Location } from '@angular/common';
+import { PageResponseFeedbackResponse } from '../../../../services/models/page-response-feedback-response';
+import { RatingComponent } from '../../components/rating/rating.component';
 
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [
-    RatingComponent,
-    NgForOf
-  ],
+  imports: [RatingComponent, CommonModule, RouterModule, RouterLink],
   templateUrl: './book-details.component.html',
-  styleUrl: './book-details.component.scss'
+  styleUrl: './book-details.component.scss',
 })
-
 export class BookDetailsComponent implements OnInit {
   book: BookResponse = {};
   feedbacks: PageResponseFeedbackResponse = {};
@@ -29,33 +27,41 @@ export class BookDetailsComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private feedbackService: FeedbackService,
-    private activatedRoute: ActivatedRoute
-  ) {
-  }
+    private activatedRoute: ActivatedRoute,
+    private location: Location
+  ) {}
   ngOnInit(): void {
     this.bookId = this.activatedRoute.snapshot.params['bookId'];
     if (this.bookId) {
-      this.bookService.findBookById({
-        'book-id': this.bookId
-      }).subscribe({
-        next: (book) => {
-          this.book = book;
-          this.findAllFeedbacks();
-        }
-      });
+      this.bookService
+        .findBookById({
+          'book-id': this.bookId,
+        })
+        .subscribe({
+          next: (book) => {
+            this.book = book;
+            this.findAllFeedbacks();
+          },
+        });
     }
   }
 
+  goBack() {
+    this.location.back();
+  }
+
   private findAllFeedbacks() {
-    this.feedbackService.findAllFeedbacksByBook({
-      'book-id': this.bookId,
-      page: this.page,
-      size: this.size
-    }).subscribe({
-      next: (data) => {
-        this.feedbacks = data;
-      }
-    });
+    this.feedbackService
+      .findAllFeedbacksByBook({
+        'book-id': this.bookId,
+        page: this.page,
+        size: this.size,
+      })
+      .subscribe({
+        next: (data) => {
+          this.feedbacks = data;
+        },
+      });
   }
 
   gotToPage(page: number) {
@@ -69,12 +75,12 @@ export class BookDetailsComponent implements OnInit {
   }
 
   goToPreviousPage() {
-    this.page --;
+    this.page--;
     this.findAllFeedbacks();
   }
 
   goToLastPage() {
-    this.page = this.feedbacks.totalPages as number - 1;
+    this.page = (this.feedbacks.totalPages as number) - 1;
     this.findAllFeedbacks();
   }
 
@@ -84,7 +90,6 @@ export class BookDetailsComponent implements OnInit {
   }
 
   get isLastPage() {
-    return this.page === this.feedbacks.totalPages as number - 1;
+    return this.page === (this.feedbacks.totalPages as number) - 1;
   }
-
 }

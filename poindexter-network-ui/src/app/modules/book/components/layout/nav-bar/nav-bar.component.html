@@ -1,0 +1,76 @@
+<nav
+  class="sticky top-0 flex justify-between items-center py-6 w-full lg:px-25  px-4 sm:px-6 content-center z-10 bg-green">
+  <a routerLink="/"
+    class="outline py-2 px-4 outline-indigo-500 outline-2 rounded-3xl flex items-center justify-center  ">
+    <i class="fas fa-book text-indigo-500"></i>
+    <p class="hidden md:inline ml-2 font-bold text-white">POINDEXTER</p>
+  </a>
+  <ul class="font-montserrat items-center hidden md:flex md:gap-6 lg:gap-">
+    <li class="growing-underline lg:mx-3">
+      <a class="hidden lg:inline" routerLink="/books"><i class="fas fa-home-alt lg:me-2"></i>Explore</a>
+      <a class="lg:hidden" routerLink="/books"><i class="fas fa-home-alt lg:me-2"></i></a>
+    </li>
+    <li class="growing-underline lg:mx-3">
+      <a class="hidden lg:inline" routerLink="/books/my-books"><i class="fas fa-book lg:me-2"></i>My books</a>
+      <a class="lg:hidden" routerLink="/books/my-books"><i class="fas fa-book lg:me-2"></i></a>
+    </li>
+    <li class="growing-underline lg:mx-3">
+      <a class="hidden lg:inline" routerLink="/books/my-returned-books"><i class="fa-solid fa-truck-fast lg:me-2"></i>My
+        returned books</a>
+      <a class="lg:hidden" routerLink="/books/my-returned-books"><i class="fa-solid fa-truck-fast lg:2"></i></a>
+    </li>
+    <li class="growing-underline lg:mx-3">
+      <a class="hidden lg:inline" routerLink="/books/my-borrowed-books"><i
+          class="fas fa-list-check lg:me-2"></i>Borrowed
+        books</a>
+      <a class="lg:hidden" routerLink="/books/my-borrowed-books"><i class="fas fa-list-check lg:me-2"></i></a>
+    </li>
+  </ul>
+  <div *ngIf="(user$ | async) === null" class="font-montserrat hidden md:block">
+    <a routerLink="/login" class="mr-6 cursor-pointer">Login</a>
+    <a routerLink="/register" class="py-2 px-4 text-white bg-black hover:bg-indigo-500 rounded-3xl">Sign up</a>
+  </div>
+  <div *ngIf="this.user$ | async as user" class="font-montserrat w-fit hidden md:block">
+    <span class="mr-6">Hi {{user.fullName.split(' ')[0]}}</span>
+    <button class="py-2 px-4 text-white bg-black rounded-3xl hover:bg-indigo-500" type="submit" (click)="logout()">
+      <i class="fas fa-door-open me-2"></i>Logout
+    </button>
+  </div>
+  <div id="showMenu" class="md:hidden" (click)="showMobileNav()">
+    <img src="dist/assets/logos/Menu.svg" alt="Menu icon" />
+  </div>
+</nav>
+
+<div *ngIf="isMobileNavVisible" id="mobileNav"
+  class="overflow-y-scroll px-4 py-2 fixed top-0 left-0 h-full w-full bg-secondary z-20 animate-fade-in-down">
+  <div id="hideMenu" class="flex justify-end" (click)="hideMobileNav()">
+    <img src="dist/assets/logos/Cross.svg" alt="" class="h-16 w-16" />
+  </div>
+  <ul class="font-montserrat flex flex-col mx-8 my-12  items-center text-center text-2xl">
+    <li class="my-6">
+      <a routerLink="/books" (click)="hideMobileNav()"><i class="fas fa-home-alt me-2"></i>Explore</a>
+    </li>
+    <li class="my-6">
+      <a routerLink="/books/my-books" (click)="hideMobileNav()"><i class="fas fa-book me-2"></i>My books</a>
+    </li>
+    <li class="my-6">
+      <a routerLink="/books/my-returned-books" (click)="hideMobileNav()"><i class="fa-solid fa-truck-fast me-2"></i>My
+        returned books</a>
+    </li>
+    <li class="my-6">
+      <a routerLink="/books/my-borrowed-books" (click)="hideMobileNav()"><i class="fas fa-list-check me-2"></i>Borrowed
+        books</a>
+    </li>
+    <li *ngIf="(user$ | async) === null" class="font-montserrat my-6">
+      <a routerLink="/login" class="mr-6 cursor-pointer" (click)="hideMobileNav()">Login</a>
+      <a routerLink="/register" class="py-3 px-5 text-white hover:bg-indigo-500 bg-black rounded-3xl"
+        (click)="hideMobileNav()">Sign up</a>
+    </li>
+    <li *ngIf="this.user$ | async as user" class="font-montserrat w-fit my-6">
+      <button class="py-3 px-5 text-white bg-black hover:bg-indigo-500 rounded-3xl" type="submit"
+        (click)="logout(); hideMobileNav()">
+        <i class="fas fa-door-open me-2"></i>Logout
+      </button>
+    </li>
+  </ul>
+</div>

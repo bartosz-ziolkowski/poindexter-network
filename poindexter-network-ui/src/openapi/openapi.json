@@ -17,7 +17,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8088/api/v1",
+      "url": "http://localhost:8089/api/v1",
       "description": "Local ENV"
     },
     {
@@ -33,9 +33,7 @@
   "paths": {
     "/feedbacks": {
       "post": {
-        "tags": [
-          "Feedback"
-        ],
+        "tags": ["Feedback"],
         "operationId": "saveFeedback",
         "requestBody": {
           "content": {
@@ -64,9 +62,7 @@
     },
     "/books": {
       "get": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "findAllBooks",
         "parameters": [
           {
@@ -104,9 +100,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "saveBook",
         "requestBody": {
           "content": {
@@ -135,9 +129,7 @@
     },
     "/books/cover/{book-id}": {
       "post": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "uploadBookCoverPicture",
         "parameters": [
           {
@@ -154,9 +146,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "type": "object",
                 "properties": {
                   "file": {
@@ -184,9 +174,7 @@
     },
     "/books/borrow/{book-id}": {
       "post": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "borrowBook",
         "parameters": [
           {
@@ -216,9 +204,7 @@
     },
     "/auth/register": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "operationId": "register",
         "requestBody": {
           "content": {
@@ -246,9 +232,7 @@
     },
     "/auth/authenticate": {
       "post": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "operationId": "authenticate",
         "requestBody": {
           "content": {
@@ -276,9 +260,7 @@
     },
     "/books/shareable/{book-id}": {
       "patch": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "updateShareableStatus",
         "parameters": [
           {
@@ -308,9 +290,7 @@
     },
     "/books/borrow/return/{book-id}": {
       "patch": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "returnBorrowBook",
         "parameters": [
           {
@@ -340,9 +320,7 @@
     },
     "/books/borrow/return/approve/{book-id}": {
       "patch": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "approveReturnBorrowBook",
         "parameters": [
           {
@@ -372,9 +350,7 @@
     },
     "/books/archived/{book-id}": {
       "patch": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "updateArchivedStatus",
         "parameters": [
           {
@@ -404,9 +380,7 @@
     },
     "/feedbacks/book/{book-id}": {
       "get": {
-        "tags": [
-          "Feedback"
-        ],
+        "tags": ["Feedback"],
         "operationId": "findAllFeedbacksByBook",
         "parameters": [
           {
@@ -455,9 +429,7 @@
     },
     "/books/{book-id}": {
       "get": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "findBookById",
         "parameters": [
           {
@@ -486,9 +458,7 @@
     },
     "/books/returned": {
       "get": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "findAllReturnedBooks",
         "parameters": [
           {
@@ -528,9 +498,7 @@
     },
     "/books/owner": {
       "get": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "findAllBooksByOwner",
         "parameters": [
           {
@@ -570,9 +538,7 @@
     },
     "/books/borrowed": {
       "get": {
-        "tags": [
-          "Book"
-        ],
+        "tags": ["Book"],
         "operationId": "findAllBorrowedBooks",
         "parameters": [
           {
@@ -612,9 +578,7 @@
     },
     "/auth/activate-account": {
       "get": {
-        "tags": [
-          "Authentication"
-        ],
+        "tags": ["Authentication"],
         "operationId": "confirm",
         "parameters": [
           {
@@ -637,10 +601,7 @@
   "components": {
     "schemas": {
       "FeedbackRequest": {
-        "required": [
-          "bookId",
-          "comment"
-        ],
+        "required": ["bookId", "comment"],
         "type": "object",
         "properties": {
           "note": {
@@ -659,12 +620,7 @@
         }
       },
       "BookRequest": {
-        "required": [
-          "authorName",
-          "isbn",
-          "synopsis",
-          "title"
-        ],
+        "required": ["authorName", "isbn", "synopsis", "title"],
         "type": "object",
         "properties": {
           "id": {
@@ -689,12 +645,7 @@
         }
       },
       "RegistrationRequest": {
-        "required": [
-          "email",
-          "firstName",
-          "lastName",
-          "password"
-        ],
+        "required": ["email", "firstName", "lastName", "password"],
         "type": "object",
         "properties": {
           "firstName": {
@@ -714,10 +665,7 @@
         }
       },
       "AuthenticationRequest": {
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "type": "object",
         "properties": {
           "email": {

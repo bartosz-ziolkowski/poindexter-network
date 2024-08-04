@@ -1,51 +1,44 @@
-import {Component, OnInit} from '@angular/core';
-import {BookResponse} from "../../../../services/models/book-response";
-import {BookService} from "../../../../services/services/book.service";
-import {Router, RouterLink} from "@angular/router";
-import {PageResponseBookResponse} from "../../../../services/models/page-response-book-response";
-import {BookCardComponent} from "../../components/book-card/book-card.component";
-import {NgForOf} from "@angular/common";
+import { CommonModule, NgForOf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { BookCardComponent } from '../../components/book-card/book-card.component';
+import { BookResponse } from '../../../../services/models/book-response';
+import { BookService } from '../../../../services/services/book.service';
+import { PageResponseBookResponse } from '../../../../services/models/page-response-book-response';
 
 @Component({
   selector: 'app-my-books',
   standalone: true,
-  imports: [
-    RouterLink,
-    BookCardComponent,
-    NgForOf
-  ],
+  imports: [RouterLink, BookCardComponent, CommonModule],
   templateUrl: './my-books.component.html',
-  styleUrl: './my-books.component.scss'
+  styleUrl: './my-books.component.scss',
 })
 export class MyBooksComponent implements OnInit {
-
   bookResponse: PageResponseBookResponse = {};
   page = 0;
   size = 5;
   pages: any = [];
 
-  constructor(
-    private bookService: BookService,
-    private router: Router
-  ) {
-  }
+  constructor(private bookService: BookService, private router: Router) {}
 
   ngOnInit(): void {
     this.findAllBooks();
   }
 
   private findAllBooks() {
-    this.bookService.findAllBooksByOwner({
-      page: this.page,
-      size: this.size
-    })
+    this.bookService
+      .findAllBooksByOwner({
+        page: this.page,
+        size: this.size,
+      })
       .subscribe({
         next: (books) => {
           this.bookResponse = books;
           this.pages = Array(this.bookResponse.totalPages)
             .fill(0)
             .map((x, i) => i);
-        }
+        },
       });
   }
 
@@ -60,12 +53,12 @@ export class MyBooksComponent implements OnInit {
   }
 
   goToPreviousPage() {
-    this.page --;
+    this.page--;
     this.findAllBooks();
   }
 
   goToLastPage() {
-    this.page = this.bookResponse.totalPages as number - 1;
+    this.page = (this.bookResponse.totalPages as number) - 1;
     this.findAllBooks();
   }
 
@@ -75,27 +68,31 @@ export class MyBooksComponent implements OnInit {
   }
 
   get isLastPage() {
-    return this.page === this.bookResponse.totalPages as number - 1;
+    return this.page === (this.bookResponse.totalPages as number) - 1;
   }
 
   archiveBook(book: BookResponse) {
-    this.bookService.updateArchivedStatus({
-      'book-id': book.id as number
-    }).subscribe({
-      next: () => {
-        book.archived = !book.archived;
-      }
-    });
+    this.bookService
+      .updateArchivedStatus({
+        'book-id': book.id as number,
+      })
+      .subscribe({
+        next: () => {
+          book.archived = !book.archived;
+        },
+      });
   }
 
   shareBook(book: BookResponse) {
-    this.bookService.updateShareableStatus({
-      'book-id': book.id as number
-    }).subscribe({
-      next: () => {
-        book.shareable = !book.shareable;
-      }
-    });
+    this.bookService
+      .updateShareableStatus({
+        'book-id': book.id as number,
+      })
+      .subscribe({
+        next: () => {
+          book.shareable = !book.shareable;
+        },
+      });
   }
 
   editBook(book: BookResponse) {

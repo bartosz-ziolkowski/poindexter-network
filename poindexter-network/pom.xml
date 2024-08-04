@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.bazi</groupId>
 	<artifactId>poindexter-network</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.3</version>
 	<name>poindexter-network-api</name>
 	<description>Social Network for Poindexters</description>
 	<url/>

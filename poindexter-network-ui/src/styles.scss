@@ -1,11 +1,68 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css");
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
-.login-container {
-  width: 800px !important;
-  margin-top: 15%;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  background-color: #f4f2ed;
+  margin: 0;
 }
 
-.cursor-pointer {
-  cursor: pointer;
+.toast-bottom-right {
+  position: absolute;
+  bottom: 3vh;
+  right: 3vw;
+}
+
+@layer components {
+  .sectionSize {
+    @apply lg:px-48 md:px-12 px-4 py-14 flex flex-col items-center;
+  }
+
+  .secondaryTitle {
+    @apply font-pt-serif text-3xl bg-left-bottom bg-no-repeat pb-8 px-16 mb-8;
+  }
+}
+
+.growing-underline {
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+  overflow: hidden;
+}
+
+.growing-underline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: black;
+  transition: opacity 300ms, transform 300ms;
+  opacity: 1;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.growing-underline:hover::after,
+.growing-underline:focus::after {
+  transform: translate3d(0, 0, 0);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  tab-size: 4;
+}
+
+html {
+  line-height: 1.15;
 }

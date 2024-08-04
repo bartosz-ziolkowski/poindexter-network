@@ -1,61 +1,74 @@
-<div class="p-2">
-  <h2>Manage my book</h2>
-  <hr>
-  <div class="alert alert-danger mt-2" role="alert" *ngIf="errorMsg.length">
-    <p class="p-0 m-0" *ngFor="let msg of errorMsg">{{msg}}</p>
+<div class="py-12 mx-auto px-6 md:px-12 xl:px-6 text-gray-600">
+
+  <!-- Page Title -->
+  <div class="text-center mb-12 space-y-2">
+    <h2 class="text-3xl font-bold text-cyan-900">Manage My Book</h2>
   </div>
-  <div class="d-flex gap-2">
-    <div class="col-3">
-      <img class="rounded-1" width="100%" height="auto" [src]=" selectedPicture || 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'" alt="">
-      <div class="mt-2">
-        <input
-          (change)="onFileSelected($event)"
-          class="form-control"
-          type="file"
-          id="formFile"
-          accept="image/*"
-        >
+
+  <!-- Error Message
+  <div *ngIf="errorMsg.length" class="bg-red-100 text-red-700 border border-red-500 p-4 rounded-lg mb-4">
+    <p class="m-0" *ngFor="let msg of errorMsg">{{ msg }}</p>
+  </div> -->
+
+  <!-- Form and Image Upload -->
+  <div class="flex flex-col items-center md:flex-row gap-6 md:gap-8 lg:px-4">
+    <!-- Image Section -->
+    <div class="w-full sm:w-1/2 lg:w-1/3">
+      <img class="rounded-lg w-full h-auto"
+        [src]="selectedPicture || 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'"
+        alt="Book cover">
+      <div class="mt-4">
+        <input (change)="onFileSelected($event)" class="form-input mt-1 block w-full" type="file" id="formFile"
+          accept="image/*">
       </div>
     </div>
-    <div class="col-9">
-      <form class="row g-3">
-        <div class="col-12">
-          <label for="title" class="form-label">Title</label>
-          <input [(ngModel)]="bookRequest.title" type="text" class="form-control" id="title" name="title"
-                 placeholder="Book title">
+    <!-- Form Section -->
+    <div class="w-full sm:w-2/3">
+
+      <form class="space-y-8 md:space-y-6">
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+          <input [(ngModel)]="bookRequest.title" type="text"
+            class="form-input outline rounded-lg outline-indigo-500 p-2 mt-2 block w-full" id="title" name="title"
+            placeholder="Da Vinci Code">
         </div>
-        <div class="col-md-6">
-          <label for="author" class="form-label">Author name</label>
-          <input [(ngModel)]="bookRequest.authorName" type="email" class="form-control" id="author" name="author"
-                 placeholder="Author name">
-        </div>
-        <div class="col-md-6">
-          <label for="isbn" class="form-label">ISBN</label>
-          <input [(ngModel)]="bookRequest.isbn" type="text" class="form-control" id="isbn" name="isbn">
-        </div>
-        <div class="col-12">
-          <label for="synopsis" class="form-label">Synopsis</label>
-          <textarea [(ngModel)]="bookRequest.synopsis" rows="4" class="form-control" id="synopsis" name="synopsis"
-                    placeholder="1234 Main St"></textarea>
-        </div>
-        <div class="col-12">
-          <div class="form-check">
-            <input [(ngModel)]="bookRequest.shareable" class="form-check-input" type="checkbox" id="gridCheck"
-                   name="shareable">
-            <label class="form-check-label" for="gridCheck">
-              Share me
-            </label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="author" class="block text-sm font-medium text-gray-700">Author Name</label>
+            <input [(ngModel)]="bookRequest.authorName" type="text"
+              class="form-input outline outline-indigo-500 rounded-lg p-2 mt-2 block w-full" id="author" name="author"
+              placeholder="Dan Brown">
+          </div>
+          <div>
+            <label for="isbn" class="block text-sm font-medium text-gray-700">ISBN</label>
+            <input [(ngModel)]="bookRequest.isbn" type="text"
+              class="form-input mt-2 outline-indigo-500 outline rounded-lg p-2 block w-full" id="isbn" name="isbn"
+              placeholder="ISBN-13: 978-0-596-52068-7">
           </div>
         </div>
-        <div class="d-flex justify-content-end gap-2 col-12">
-          <button (click)="saveBook()" type="submit" class="btn btn-outline-primary">
-            <i class="fas fa-save"></i>&nbsp;Save
+        <div>
+          <label for="synopsis" class="block text-sm font-medium text-gray-700">Synopsis</label>
+          <textarea [(ngModel)]="bookRequest.synopsis" rows="4"
+            class="form-input mt-2 outline-indigo-500 outline rounded-lg p-2 block w-full" id="synopsis" name="synopsis"
+            placeholder="The Da Vinci Code by Dan Brown follows Robert Langdon, a Harvard symbologist, as he uncovers a secret society's hidden message within Leonardo da Vinci's artwork. The thrilling chase leads to revelations about religion, history, and a centuries-old mystery."></textarea>
+        </div>
+        <div class="flex items-center mb-6">
+          <input [(ngModel)]="bookRequest.shareable" class="form-checkbox" type="checkbox" id="gridCheck"
+            name="shareable">
+          <label class="ml-2 text-gray-700" for="gridCheck">Allow others to borrow</label>
+        </div>
+        <div class="flex justify-center md:justify-end gap-4 mt-6">
+          <button (click)="saveBook()" type="submit"
+            class="outline outline-green  px-4 py-2 h-fit border border-blue-500 text-green rounded-md hover:bg-blue-500 hover:text-black transition duration-200 ease-in-out">
+            <i class="fas fa-save me-2"></i>Save
           </button>
-          <a routerLink="/books/my-books" type="submit" class="btn btn-link btn text-danger">
-            <i class="fas fa-times"></i>&nbsp;Cancel
+          <a routerLink="/books/my-books"
+            class="text-red-500 outline outline-red-500 rounded-md px-4 py-2 hover:text-black text-base font-medium transition duration-200 ease-in-out">
+            <i class="fas fa-times me-2"></i>Cancel
           </a>
         </div>
       </form>
     </div>
   </div>
+
 </div>

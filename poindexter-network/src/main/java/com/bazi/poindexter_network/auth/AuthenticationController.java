@@ -1,5 +1,7 @@
 package com.bazi.poindexter_network.auth;
 
+import com.bazi.poindexter_network.user.User;
+import com.bazi.poindexter_network.user.UserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("auth")
@@ -41,5 +45,21 @@ public class AuthenticationController {
             @RequestParam String token) throws MessagingException {
         service.activateAccount(token);
     }
+
+    @GetMapping("/current-user")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> getCurrentUser() {
+        User user = service.getCurrentUser();
+
+        UserResponse userResponse = UserResponse.builder()
+                .firstName(user.getFirstName())
+                .email(user.getEmail())
+                .accountLocked(user.isAccountLocked())
+                .enabled(user.isEnabled())
+                .build();
+
+        return ResponseEntity.ok(userResponse);
+    }
+
 
 }

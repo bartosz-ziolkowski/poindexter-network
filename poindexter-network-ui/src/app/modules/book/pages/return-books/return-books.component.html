@@ -1,103 +1,104 @@
-<h2>My returned books</h2>
-<hr>
-<div
-  *ngIf="message"
-  class="alert "
-  [class.alert-danger]="level==='error'"
-  [class.alert-success]="level==='success'"
-  role="alert"
->
-  <p>{{message}}</p>
-</div>
-<div>
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Title</th>
-      <th scope="col">Author</th>
-      <th scope="col">ISBN</th>
-      <th scope="col">Rate</th>
-      <th scope="col"><i class="fas fa-cogs"></i></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr
-      *ngFor="let book of returnedBooks.content; let index = index">
-      <th scope="row">{{ index + 1 }}</th>
-      <td>{{ book.title }}</td>
-      <td>{{ book.authorName }}</td>
-      <td>{{ book.isbn }}</td>
-      <td><i class="fas fa-star text-warning"></i> {{ book.rate }}</td>
-      <td>
-        <div class="d-flex gap-2">
-          <i *ngIf="book.returned" class="fa-regular fa-paper-plane text-primary"></i>
-          <i *ngIf="!book.returned" class="fa-solid fa-paper-plane text-success"></i>
-          <i class="fa-solid fa-circle-check" (click)="approveBookReturn(book)" [class.text-success]="book.returnApproved"></i>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <div class="d-flex justify-content-center mt-3">
-    <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li class="page-item">
-          <a
-            (click)="goToFirstPage()"
-            class="page-link"
-            href="javascript:void(0)"
-            aria-label="Previous"
-            [class.disabled]="page === 0"
-          >
-            <i class="fa-solid fa-angles-left"></i>
-          </a>
-        </li>
-        <li class="page-item">
-          <a
-            (click)="goToPreviousPage()"
-            class="page-link"
-            href="javascript:void(0)"
-            aria-label="Previous"
-            [class.disabled]="page === 0"
-          >
-            <i class="fa-solid fa-angle-left"></i>
-          </a>
-        </li>
-        <li
-          class="page-item"
-          *ngFor="let pageIndex of pages"
-        >
-          <a
-            (click)="gotToPage(pageIndex)"
-            class="page-link"
-            [class.active]="page === pageIndex"
-            href="javascript:void(0)"
-          >{{ pageIndex + 1 }}</a>
-        </li>
-        <li class="page-item">
-          <a
-            (click)="goToNextPage()"
-            class="page-link"
-            href="javascript:void(0)"
-            aria-label="Next"
-            [class.disabled]="isLastPage"
-          >
-            <i class="fa-solid fa-chevron-right"></i>
-          </a>
-        </li>
-        <li class="page-item">
-          <a
-            (click)="goToLastPage()"
-            class="page-link"
-            href="javascript:void(0)"
-            aria-label="Next"
-            [class.disabled]="isLastPage"
-          >
-            <i class="fa-solid fa-angles-right"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
+<div class="py-16 ">
+  <div class="container mx-auto px-6 text-gray-600 md:px-4 xl:px-6">
+    <div class="mb-12 space-y-2 text-center">
+      <h2 class="text-3xl text-cyan-900 font-bold md:text-4xl">My Books Borrowed by Others</h2>
+    </div>
+    <!--
+    <div *ngIf="message" class="p-4 mb-4 rounded-lg" [ngClass]="{
+       'bg-red-500 text-white border-red-500': level === 'error',
+       'bg-green text-white border-green': level === 'success'
+     }" role="alert">
+      <p>{{message}}</p>
+    </div>
+-->
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white rounded-lg shadow-md">
+        <thead class="bg-cyan-100">
+          <tr>
+            <th scope="col" class="py-3 px-6 text-left">#</th>
+            <th scope="col" class="py-3 px-6 text-left">Title</th>
+            <th scope="col" class="py-3 px-6 text-left">Author</th>
+            <th scope="col" class="py-3 px-6 text-left">ISBN</th>
+            <th scope="col" class="py-3 px-6 text-left">Rate</th>
+            <th scope="col" class="py-3 px-6 text-left"><i class="fas fa-cogs"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Empty state row -->
+          <tr *ngIf="returnedBooks.content && returnedBooks.content.length === 0">
+            <td colspan="6" class="py-3 px-6 text-center text-gray-500">No returned books available</td>
+          </tr>
+          <!-- Book rows -->
+          <tr *ngFor="let book of returnedBooks.content; let index = index" class="border-t">
+            <td class="py-3 px-6"><a routerLink="/books/details/{{book.id}}"
+                class="fas fa-circle-info text-blue cursor-pointer hover:text-indigo-500" title="See details"></a>
+            </td>
+            <td class="py-3 px-6">{{ book.title }}</td>
+            <td class="py-3 px-6">{{ book.authorName }}</td>
+            <td class="py-3 px-6">{{ book.isbn }}</td>
+            <td class="py-3 px-6">
+              <i class="fas fa-star text-yellow-500"></i> {{ book.rate }}
+            </td>
+            <td class="py-3 px-6">
+              <div class="flex gap-2 items-center">
+                <i *ngIf="book.returned" class="fa-regular fa-paper-plane text-cyan-500" title="Book Returned"></i>
+                <i *ngIf="!book.returned" class="fa-solid fa-paper-plane text-yellow-500" title="Book Not Returned"></i>
+                <i class="fa-solid fa-circle-check" (click)="approveBookReturn(book)"
+                  [class.text-green]="book.returnApproved" [class.cursor-pointer]="!book.returnApproved"
+                  title="Approved Book Return?"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="flex justify-center my-6">
+      <nav aria-label="Page navigation">
+        <ul class="flex list-style-none space-x-1">
+          <li>
+            <a (click)="goToFirstPage()"
+              class="px-3 py-1 border rounded-md text-gray-500 hover:bg-gray-200 transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="First" [class.opacity-50]="page === 0"
+              [class.cursor-not-allowed]="page === 0">
+              <i class="fa-solid fa-angles-left"></i>
+            </a>
+          </li>
+          <li>
+            <a (click)="goToPreviousPage()"
+              class="px-3 py-1 border rounded-md text-white bg-cyan-500 hover:bg-blue-700 transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="Previous" [class.opacity-50]="page === 0"
+              [class.cursor-not-allowed]="page === 0">
+              <i class="fa-solid fa-angle-left"></i>
+            </a>
+          </li>
+          <li *ngFor="let pageIndex of pages">
+            <a (click)="gotToPage(pageIndex)" class="px-3 py-1 border rounded-md transition duration-200 ease-in-out"
+              [class.bg-cyan-500]="page === pageIndex" [class.text-white]="page === pageIndex"
+              [class.text-cyan-500]="page !== pageIndex" [class.border-cyan-500]="page === pageIndex"
+              href="javascript:void(0)">
+              {{ pageIndex + 1 }}
+            </a>
+          </li>
+          <li>
+            <a (click)="goToNextPage()"
+              class="px-3 py-1 border rounded-md text-white bg-cyan-500 hover:bg-blue-700 transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="Next" [class.opacity-50]="isLastPage"
+              [class.cursor-not-allowed]="isLastPage">
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </li>
+          <li>
+            <a (click)="goToLastPage()"
+              class="px-3 py-1 border rounded-md text-white bg-cyan-500 hover:bg-blue-700 transition duration-200 ease-in-out"
+              href="javascript:void(0)" aria-label="Last" [class.opacity-50]="isLastPage"
+              [class.cursor-not-allowed]="isLastPage">
+              <i class="fa-solid fa-angles-right"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </div>
