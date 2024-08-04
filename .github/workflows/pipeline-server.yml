@@ -68,6 +68,22 @@ jobs:
     runs-on: ubuntu-latest
     name: Build backend
     needs: [compile]
+    services:
+      db:
+        container_name: poindexter-db
+        image: postgres
+        environment:
+          POSTGRES_USER: username
+          POSTGRES_PASSWORD: password
+          PGDATA: /var/lib/postgresql/data
+          POSTGRES_DB: poindexter-network
+        volumes:
+          - postgres:/data/postgres
+        ports:
+          - 6734:5432
+        networks:
+          - poindexter-net
+        restart: unless-stopped
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -88,6 +104,10 @@ jobs:
           echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
           echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          
 
       - name: Build project
         run: |
