@@ -29,6 +29,11 @@ jobs:
           java-version: "17"
           distribution: "corretto"
 
+      - name: Set environment variables
+        run: echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+        run: echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+        run: echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Compile project
         run: |
           cd poindexter-network
@@ -77,6 +82,11 @@ jobs:
           java-version: "17"
           distribution: "corretto"
 
+      - name: Set environment variables
+        run: echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+        run: echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+        run: echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Build project
         run: |
           cd poindexter-network
@@ -100,6 +110,11 @@ jobs:
         with:
           java-version: "17"
           distribution: "corretto"
+      
+      - name: Set environment variables
+        run: echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+        run: echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+        run: echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Build project
         run: |
