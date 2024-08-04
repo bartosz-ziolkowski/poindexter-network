@@ -18,10 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  * Module that provides all services and configuration.
  */
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    ApiModule.forRoot({ rootUrl: 'http://localhost:8089/api/v1' }),
-  ],
+  imports: [BrowserAnimationsModule],
   exports: [],
   declarations: [],
   providers: [
