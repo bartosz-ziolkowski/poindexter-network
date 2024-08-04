@@ -72,11 +72,12 @@ jobs:
       postgres:
         image: postgres
         env:
+          POSTGRES_HOST: poindexter-db
           POSTGRES_USER: username
           POSTGRES_PASSWORD: password
           POSTGRES_DB: poindexter-network
         ports:
-          - 5432:5432
+          - 6734:5432
         options: >-
           --health-cmd "pg_isready -U username -d poindexter-network"
           --health-interval 10s
