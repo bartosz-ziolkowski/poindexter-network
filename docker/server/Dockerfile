@@ -16,7 +16,7 @@ COPY --from=build /build/target/poindexter-network-*.jar /app/
 
 # Extract the JAR version
 RUN APP_VERSION=$(ls /app | grep *.jar | awk 'NR==2{split($0,a,"-"); print a[3]}' | awk '{sub(/.jar$/,"")}1')\
-    && echo "Building container with BSN v-$version"
+    && echo "Building container with PN v-$version"
 EXPOSE 8089
 
 ENV DB_URL=jdbc:postgresql://poindexter-db:5432/poindexter-network
