@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:6734/poindexter-network
-    username: username
-    password: password
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -31,10 +31,10 @@ spring:
 application:
   security:
     jwt:
-      secret-key: eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcxOTkyNzIyMCwiaWF0IjoxNzE5OTI3MjIwfQYNJbf8TL9Wa9urtOJLoJvZIEO5cfBa0RDIfy8lAVuQ
-      expiration: 86400000 # a day
+      secret-key: ${JWT_KEY}
+      expiration: 86400000
       refresh-token:
-        expiration: 604800000 # 7 days
+        expiration: 604800000
   mailing:
     frontend:
       activation-url: http://localhost:8080/activate-account

@@ -34,34 +34,10 @@ jobs:
           cd poindexter-network
           ./mvnw clean compile
 
-  # For now I don't have tests
-  # unit-tests:
-  #   runs-on: ubuntu-latest
-  #   name: Unit tests
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
 
-  #     - name: Set execute permissions for mvnw
-  #       run: chmod +x poindexter-network/mvnw
-
-  #     - name: Setup JDK
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         java-version: "17"
-  #         distribution: "corretto"
-
-  #     - name: Running Unit Tests
-  #       run: |
-  #         cd poindexter-network
-  #         ./mvnw clean test
-
-  build:
+  unit-tests:
     runs-on: ubuntu-latest
-    name: Build backend
-    needs: [compile]
+    name: Unit tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,6 +52,51 @@ jobs:
         with:
           java-version: "17"
           distribution: "corretto"
+
+      - name: Set environment variables
+        run: |
+          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> $GITHUB_ENV
+
+      - name: Running Unit Tests
+        run: |
+          cd poindexter-network
+          ./mvnw clean test
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build backend
+    needs: [compile]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set execute permissions for mvnw
+        run: chmod +x poindexter-network/mvnw
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "corretto"
+
+      - name: Set environment variables
+        run: |
+          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> $GITHUB_ENV
 
       - name: Build project
         run: |
@@ -101,6 +122,16 @@ jobs:
           java-version: "17"
           distribution: "corretto"
 
+      - name: Set environment variables
+        run: |
+          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "JWT_KEY=${{ secrets.JWT_KEY }}" >> $GITHUB_ENV
+
       - name: Build project
         run: |
           cd poindexter-network
@@ -110,7 +141,7 @@ jobs:
         id: extract_version
         run: |
           cd poindexter-network
-          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -125,10 +156,10 @@ jobs:
           file: docker/server/Dockerfile
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pn-api:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/pn-api:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pn-api:${{ env.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/pn-api:latest
           build-args: |
             PROFILE=dev
-            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
+            APP_VERSION=${{ env.VERSION }}
 
 # TO-DO: set-up VPS first
 # deploy:
