@@ -34,33 +34,34 @@ jobs:
           cd poindexter-network
           ./mvnw clean compile
 
-  unit-tests:
-    runs-on: ubuntu-latest
-    name: Unit tests
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # For now I don't have tests
+  # unit-tests:
+  #   runs-on: ubuntu-latest
+  #   name: Unit tests
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Set execute permissions for mvnw
-        run: chmod +x poindexter-network/mvnw
+  #     - name: Set execute permissions for mvnw
+  #       run: chmod +x poindexter-network/mvnw
 
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: "17"
-          distribution: "corretto"
+  #     - name: Setup JDK
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: "17"
+  #         distribution: "corretto"
 
-      - name: Running Unit Tests
-        run: |
-          cd poindexter-network
-          ./mvnw clean test -e -X
+  #     - name: Running Unit Tests
+  #       run: |
+  #         cd poindexter-network
+  #         ./mvnw clean test
 
   build:
     runs-on: ubuntu-latest
     name: Build backend
-    needs: [compile, unit-tests]
+    needs: [compile]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
