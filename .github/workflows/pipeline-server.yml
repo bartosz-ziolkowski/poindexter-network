@@ -12,13 +12,16 @@ on:
 
 jobs:
   compile:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Compile project
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set execute permissions for mvnw
+        run: chmod +x poindexter-network/mvnw
 
       - name: Setup JDK
         uses: actions/setup-java@v4
@@ -31,35 +34,42 @@ jobs:
           cd poindexter-network
           ./mvnw clean compile
 
-  unit-tests:
-    runs-on: self-hosted
-    name: Unit tests
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # For now I don't have tests
+  # unit-tests:
+  #   runs-on: ubuntu-latest
+  #   name: Unit tests
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: "17"
-          distribution: "corretto"
+  #     - name: Set execute permissions for mvnw
+  #       run: chmod +x poindexter-network/mvnw
 
-      - name: Running Unit Tests
-        run: |
-          cd poindexter-network
-          ./mvnw clean test
+  #     - name: Setup JDK
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: "17"
+  #         distribution: "corretto"
+
+  #     - name: Running Unit Tests
+  #       run: |
+  #         cd poindexter-network
+  #         ./mvnw clean test
 
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Build backend
-    needs: [compile, unit-tests]
+    needs: [compile]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set execute permissions for mvnw
+        run: chmod +x poindexter-network/mvnw
 
       - name: Setup JDK
         uses: actions/setup-java@v4
@@ -74,13 +84,16 @@ jobs:
 
   build-image:
     name: Build Docker image
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: [build]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set execute permissions for mvnw
+        run: chmod +x poindexter-network/mvnw
 
       - name: Setup JDK
         uses: actions/setup-java@v4
