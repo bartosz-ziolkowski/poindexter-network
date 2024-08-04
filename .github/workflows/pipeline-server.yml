@@ -29,60 +29,48 @@ jobs:
           java-version: "17"
           distribution: "corretto"
 
-      - name: Set environment variables
-        run: |
-          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
-
       - name: Compile project
         run: |
           cd poindexter-network
           ./mvnw clean compile
 
-  # For now I don't have tests
-  # unit-tests:
-  #   runs-on: ubuntu-latest
-  #   name: Unit tests
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
 
-  #     - name: Set execute permissions for mvnw
-  #       run: chmod +x poindexter-network/mvnw
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: Unit tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-  #     - name: Setup JDK
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         java-version: "17"
-  #         distribution: "corretto"
+      - name: Set execute permissions for mvnw
+        run: chmod +x poindexter-network/mvnw
 
-  #     - name: Running Unit Tests
-  #       run: |
-  #         cd poindexter-network
-  #         ./mvnw clean test
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "corretto"
+
+      - name: Set environment variables
+        run: |
+          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Running Unit Tests
+        run: |
+          cd poindexter-network
+          ./mvnw clean test
 
   build:
     runs-on: ubuntu-latest
     name: Build backend
     needs: [compile]
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_HOST: poindexter-db
-          POSTGRES_USER: username
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: poindexter-network
-        ports:
-          - 6734:5432
-        options: >-
-          --health-cmd "pg_isready -U username -d poindexter-network"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -137,6 +125,9 @@ jobs:
           echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
           echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
           echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Build project
         run: |
