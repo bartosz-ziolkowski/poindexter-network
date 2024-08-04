@@ -30,10 +30,10 @@ jobs:
           distribution: "corretto"
 
       - name: Set environment variables
-        run: |
-          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+        env:
+          EMAIL_HOST_NAME: ${{ secrets.EMAIL_HOST_NAME }}
+          EMAIL_USER_NAME: ${{ secrets.EMAIL_USER_NAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
 
       - name: Compile project
         run: |
@@ -84,10 +84,10 @@ jobs:
           distribution: "corretto"
 
       - name: Set environment variables
-        run: |
-          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+        env:
+          EMAIL_HOST_NAME: ${{ secrets.EMAIL_HOST_NAME }}
+          EMAIL_USER_NAME: ${{ secrets.EMAIL_USER_NAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
 
       - name: Build project
         run: |
@@ -114,10 +114,10 @@ jobs:
           distribution: "corretto"
       
       - name: Set environment variables
-        run: |
-          echo "EMAIL_HOST_NAME=${{ secrets.EMAIL_HOST_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_USER_NAME=${{ secrets.EMAIL_USER_NAME }}" >> $GITHUB_ENV
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+        env:
+          EMAIL_HOST_NAME: ${{ secrets.EMAIL_HOST_NAME }}
+          EMAIL_USER_NAME: ${{ secrets.EMAIL_USER_NAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
 
       - name: Build project
         run: |
