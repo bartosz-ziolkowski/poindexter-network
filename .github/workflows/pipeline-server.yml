@@ -55,7 +55,7 @@ jobs:
       - name: Running Unit Tests
         run: |
           cd poindexter-network
-          ./mvnw clean test
+          ./mvnw clean test -e -X
 
   build:
     runs-on: ubuntu-latest
