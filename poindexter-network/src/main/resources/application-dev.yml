@@ -39,7 +39,7 @@ application:
     frontend:
       activation-url: http://localhost:8080/activate-account
   CORS:
-    origins: http://localhost:4200,http://localhost:8080
+    origins: ${ALLOWED_ORIGINS}
   file:
     uploads:
       photos-output-path: ./uploads
